@@ -1,0 +1,10 @@
+
+dapr run --app-id example-publisher --app-port 5000 dotnet run
+
+dapr run --app-id example-first-subscriber --app-port 5001 dotnet run
+
+dapr run --app-id example-second-subscriber --app-port 5002 dotnet run
+
+
+
+dapr publish --topic ProductCreated --payload "{ \"ProductId\": 1, \"Code\":\"ahhdhhdhd\" }"

@@ -1,0 +1,11 @@
+# My Variables
+@contentType = application/json
+@port = 5000
+
+POST http://localhost:{{port}}/api/Publisher HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+	"ProductId"	: 1,
+	"Code": "this-is-a-test"
+}
