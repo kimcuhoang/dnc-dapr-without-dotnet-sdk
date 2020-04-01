@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CloudNative.CloudEvents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,10 @@ namespace Example.Dapr.FirstSubscriber
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddControllers()
+                .AddControllers(opts =>
+                {
+                    opts.InputFormatters.Insert(0, new CloudEventJsonInputFormatter());
+                })
                 .AddJsonOptions(opts => { opts.JsonSerializerOptions.PropertyNameCaseInsensitive = true; });
         }
 

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using CloudNative.CloudEvents;
+using Example.Dapr.FirstSubscriber.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace Example.Dapr.FirstSubscriber.Controllers
 {
@@ -16,14 +18,17 @@ namespace Example.Dapr.FirstSubscriber.Controllers
         }
 
         [HttpPost("ProductCreated")]
-        public IActionResult SubscribeProductCreated(object request)
+        public IActionResult SubscribeProductCreated(CloudEvent request)
         {
-            var requestJson = JsonSerializer.Serialize(request, new JsonSerializerOptions
+            this._logger.LogInformation($"[{nameof(SubscriberController)}]: Received request from publisher: {request.Data}");
+
+            var productCreated = JsonSerializer.Deserialize<ProductCreated>(request.Data.ToString(), new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
+                AllowTrailingCommas = true
             });
 
-            this._logger.LogInformation($"[{nameof(SubscriberController)}]: Received request from publisher: {requestJson}");
+            this._logger.LogInformation($"[{nameof(SubscriberController)}]: Deserialized to {nameof(ProductCreated)}: {JsonSerializer.Serialize(productCreated)}");
 
             return Ok();
         }
