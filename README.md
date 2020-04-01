@@ -55,48 +55,16 @@ dapr publish --topic ProductCreated --payload "{ \"ProductId\": 1, \"Code\":\"th
 
 Both subscribers which are **example-first-subscriber** & **example-second-subscriber** receive a message
 
-```cmd
-== APP == [13:02:37 INF] Request starting HTTP/1.1 POST http://127.0.0.1:5001/ProductCreated application/cloudevents+json 220
+![Logs of FirstSubscriber](assets/logs-firstsubscriber.png)
 
-== APP == [13:02:37 INF] Executing endpoint 'Example.Dapr.FirstSubscriber.Controllers.SubscriberController.SubscribeProductCreated (Example.Dapr.FirstSubscriber)'
-
-== APP == [13:02:37 INF] Route matched with {action = "SubscribeProductCreated", controller = "Subscriber"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SubscribeProductCreated(System.Object) on controller Example.Dapr.FirstSubscriber.Controllers.SubscriberController (Example.Dapr.FirstSubscriber).
-
-== APP == [13:02:37 INF] [SubscriberController]: Received request from publisher: {"id":"d00c95b3-3b28-4da6-85c1-ec5563bffb21","source":"example-publisher","type":"com.dapr.event.sent","specversion":"0.3","datacontenttype":"application/json","data":{"ProductId":1,"Code":"this-is-a-test"},"subject":""}
-
-== APP == [13:02:37 INF] Executing HttpStatusCodeResult, setting HTTP status code 200
-
-== APP == [13:02:37 INF] Executed action Example.Dapr.FirstSubscriber.Controllers.SubscriberController.SubscribeProductCreated (Example.Dapr.FirstSubscriber) in 19.6132ms
-
-== APP == [13:02:37 INF] Executed endpoint 'Example.Dapr.FirstSubscriber.Controllers.SubscriberController.SubscribeProductCreated (Example.Dapr.FirstSubscriber)'
-
-== APP == [13:02:37 INF] Request finished in 63.5069ms 200
-```
-
-```cmd
-== APP == [13:02:37 INF] Request starting HTTP/1.1 POST http://127.0.0.1:5002/ProductCreated application/cloudevents+json 220
-
-== APP == [13:02:37 INF] Executing endpoint 'Example.Dapr.SecondSubscriber.Controllers.SubscriberController.SubscribeProductCreated (Example.Dapr.SecondSubscriber)'
-
-== APP == [13:02:37 INF] Route matched with {action = "SubscribeProductCreated", controller = "Subscriber"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SubscribeProductCreated(System.Object) on controller Example.Dapr.SecondSubscriber.Controllers.SubscriberController (Example.Dapr.SecondSubscriber).
-
-== APP == [13:02:37 INF] [SubscriberController]: Received request from publisher: {"id":"d00c95b3-3b28-4da6-85c1-ec5563bffb21","source":"example-publisher","type":"com.dapr.event.sent","specversion":"0.3","datacontenttype":"application/json","data":{"ProductId":1,"Code":"this-is-a-test"},"subject":""}
-
-== APP == [13:02:37 INF] Executing HttpStatusCodeResult, setting HTTP status code 200
-
-== APP == [13:02:37 INF] Executed action Example.Dapr.SecondSubscriber.Controllers.SubscriberController.SubscribeProductCreated (Example.Dapr.SecondSubscriber) in 25.8006ms
-
-== APP == [13:02:37 INF] Executed endpoint 'Example.Dapr.SecondSubscriber.Controllers.SubscriberController.SubscribeProductCreated (Example.Dapr.SecondSubscriber)'
-
-== APP == [13:02:37 INF] Request finished in 68.4881ms 200
-```
+![Logs of SecondSubscriber](assets/logs-secondsubscriber.png)
 
 ## Use Visual Studio Code and RestClient extension to publish the message
 
 - [RestClient extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) must be installed within Visual Studio Code
 - Open [vscode-rest-test\create-product.http](vscode-rest-test/create-product.http) by Visual Studio Code; then click on **Send Request** and observe the log
 
-![](assets/use-restclient.png)
+![Use RestClient Extension of Visual Studio Code](assets/use-restclient.png)
 
 ## Notes
 
@@ -106,7 +74,18 @@ Both subscribers which are **example-first-subscriber** & **example-second-subsc
 
 ```csharp
 [HttpPost("ProductCreated")]
-public IActionResult SubscribeProductCreated(object request)
+public IActionResult SubscribeProductCreated(CloudEvent request)
+```
+
+- Remember add `CloudEventJsonInputFormatter`
+
+```csharp
+services
+    .AddControllers(opts =>
+    {
+        opts.InputFormatters.Insert(0, new CloudEventJsonInputFormatter());
+    })
+    .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
 ```
 
 - Then expose to Dapr runtime by define the **MapGet** inside **Startup.cs**
@@ -156,3 +135,4 @@ If you liked this project or if it helped you, please give a star :star: for thi
 3. [Publish Topic](https://github.com/dapr/docs/tree/master/howto/publish-topic)
 4. [Consume Topic](https://github.com/dapr/docs/tree/master/howto/consume-topic)
 5. [Examples](https://github.com/dapr/samples/tree/master/4.pub-sub)
+6. [CloudEvent sdk-csharp](https://github.com/cloudevents/sdk-csharp)
