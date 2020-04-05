@@ -33,7 +33,9 @@ namespace Example.Dapr.Publisher
                 {
                     var logger = provider.GetRequiredService<ILogger<Startup>>();
 
-                    var baseAddress = $"http://localhost:{Environment.GetEnvironmentVariable("DAPR_HTTP_PORT")}";
+                    var daprPort = Environment.GetEnvironmentVariable("DAPR_HTTP_PORT") ?? "3500";
+
+                    var baseAddress = $"http://localhost:{daprPort}";
 
                     logger.LogInformation($"[{nameof(Startup)}] - Publish Address: {baseAddress}");
 

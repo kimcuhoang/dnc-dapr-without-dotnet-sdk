@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+
+    example-publisher:
+        image: example-publisher:dev
+        build:
+            context: .
+            dockerfile: source/Example.Dapr.Publisher/Dockerfile
+
+    example-firstsubscriber:
+        image: example-firstsubscriber:dev
+        build:
+            context: .
+            dockerfile: source/Example.Dapr.FirstSubscriber/Dockerfile
+
+    example-secondsubscriber:
+        image: example-secondsubscriber:dev
+        build:
+            context: .
+            dockerfile: source/Example.Dapr.SecondSubscriber/Dockerfile
