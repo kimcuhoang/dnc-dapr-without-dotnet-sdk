@@ -15,6 +15,10 @@ This sample includes 3 .NET Core WebApi as below:
 1. Install Docker for Desktop
 2. Install [Dapr Cli](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md)
 
+## How to deploy to Kubernetes
+
+- Please see the [Guide](/Helm/README.md)
+
 ## Run projects with Dapr Cli
 
 1. Starting **Publisher**
