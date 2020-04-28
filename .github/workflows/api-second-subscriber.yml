@@ -1,4 +1,4 @@
-name: Build Example.Dapr.SecondSubscriber
+name: Example.Dapr.SecondSubscriber
 
 # Trigger the workflow on push or pull request,
 # but only for the master branch
