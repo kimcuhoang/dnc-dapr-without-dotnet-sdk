@@ -1,8 +1,8 @@
 # Dapr Pub-Sub with .NET Core Sample (without using [Dapr Dotnet-SDK](https://github.com/dapr/dotnet-sdk))
 
-![publisher-api-ci](https://github.com/kimcu-on-thenet/dnc-dapr/workflows/api-publisher/badge.svg?branch=master)
-![first-subscriber-api-ci](https://github.com/kimcu-on-thenet/dnc-dapr/workflows/api-first-subscriber/badge.svg?branch=master)
-![second-subscriber-api-ci](https://github.com/kimcu-on-thenet/dnc-dapr/workflows/api-seconde-subscriber/badge.svg?branch=master)
+![publisher-api-ci](https://github.com/kimcu-on-thenet/dnc-dapr/workflows/.github/workflows/api-publisher/badge.svg?branch=master)
+![first-subscriber-api-ci](https://github.com/kimcu-on-thenet/dnc-dapr/workflows/.github/workflows/api-first-subscriber/badge.svg?branch=master)
+![second-subscriber-api-ci](https://github.com/kimcu-on-thenet/dnc-dapr/workflows/.github/workflows/api-seconde-subscriber/badge.svg?branch=master)
 
 This sample includes 3 .NET Core WebApi as below:
 
